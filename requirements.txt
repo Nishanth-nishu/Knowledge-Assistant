@@ -1,0 +1,61 @@
+# Core Framework
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+pydantic==2.6.1
+pydantic-settings==2.1.0
+python-multipart==0.0.9
+
+# LLM & AI
+openai==1.12.0
+litellm==1.28.9
+tiktoken==0.6.0
+tenacity==8.2.3
+
+# Embeddings & NLP
+sentence-transformers==2.3.1
+transformers==4.37.2
+torch==2.2.0
+numpy==1.26.4
+
+# Vector Database
+qdrant-client==1.7.3
+
+# Graph Database
+neo4j==5.17.0
+
+# Cache & Message Queue
+redis==5.0.1
+aio-pika==9.4.0
+
+# Agent Framework
+langgraph==0.0.28
+langchain==0.1.6
+langchain-core==0.1.22
+langchain-community==0.0.19
+
+# Document Processing
+pypdf==4.0.1
+pymupdf==1.23.21
+python-docx==1.1.0
+beautifulsoup4==4.12.3
+lxml==5.1.0
+
+# BM25 & Sparse Retrieval
+rank-bm25==0.2.2
+
+# Monitoring & Observability
+prometheus-client==0.19.0
+opentelemetry-api==1.22.0
+opentelemetry-sdk==1.22.0
+opentelemetry-instrumentation-fastapi==0.43b0
+structlog==24.1.0
+
+# Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+httpx==0.26.0
+
+# Utilities
+python-dotenv==1.0.1
+aiofiles==23.2.1
+orjson==3.9.13
