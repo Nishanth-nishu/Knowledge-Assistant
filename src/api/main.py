@@ -110,6 +110,16 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     
+    # Add rate limiting middleware
+    from src.api.middleware.rate_limit import RateLimitMiddleware, RateLimitConfig
+    rate_config = RateLimitConfig(
+        requests_per_minute=settings.security.rate_limit_requests,
+        requests_per_hour=settings.security.rate_limit_requests * 20,
+        burst_size=20,
+        enabled=settings.security.rate_limit_enabled,
+    )
+    app.add_middleware(RateLimitMiddleware, config=rate_config)
+    
     # Register routes
     _register_routes(app)
     
@@ -126,13 +136,20 @@ def create_app() -> FastAPI:
 
 def _register_routes(app: FastAPI) -> None:
     """Register API routes."""
-    from src.api.routes import query, documents, admin, health
+    from src.api.routes import query, documents, admin, health, auth
     
     # Health check routes (no auth required)
     app.include_router(
         health.router,
         prefix="",
         tags=["Health"],
+    )
+    
+    # Auth routes (no auth required)
+    app.include_router(
+        auth.router,
+        prefix="/api/v1",
+        tags=["Authentication"],
     )
     
     # API v1 routes
