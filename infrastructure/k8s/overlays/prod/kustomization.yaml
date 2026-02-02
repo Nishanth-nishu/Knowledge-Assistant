@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+patchesStrategicMerge:
+  - patch-replicas.yaml
+
+# In production, we assume secrets are managed externally (e.g., Vault, sealed-secrets)
+# or applied separately. We merge config here.
+
+configMapGenerator:
+  - name: eka-config
+    behavior: merge
+    literals:
+      - ENVIRONMENT="production"
+      - LOG_LEVEL="INFO"
+      - API_WORKERS="4"

@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+patchesStrategicMerge:
+  - patch-replicas.yaml
+  - patch-resources.yaml
+  - patch-service-nodeport.yaml
+
+configMapGenerator:
+  - name: eka-config
+    behavior: merge
+    literals:
+      - ENVIRONMENT="development"
+      - LOG_LEVEL="DEBUG"
+      - API_WORKERS="1"

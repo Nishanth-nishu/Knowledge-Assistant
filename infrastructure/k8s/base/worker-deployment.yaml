@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eka-worker
+  namespace: eka-system
+  labels:
+    app: eka-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eka-worker
+  template:
+    metadata:
+      labels:
+        app: eka-worker
+    spec:
+      containers:
+      - name: worker
+        image: nishanthr23/eka-api:latest # Uses same image but runs worker
+        imagePullPolicy: Always
+        command: ["celery"]
+        args: ["-A", "src.workers.celery_app", "worker", "--loglevel=info"]
+        envFrom:
+        - configMapRef:
+            name: eka-config
+        - secretRef:
+            name: eka-secrets
+        livenessProbe:
+          exec:
+            command: ["celery", "-A", "src.workers.celery_app", "inspect", "ping"]
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
